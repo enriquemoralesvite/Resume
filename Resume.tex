@@ -1,0 +1,422 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Enrique's CV},
+    pdfauthor={Enrique Morales},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{ragged2e} % for text justification
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{multicol} % para múltiples columnas
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Enrique Morales
+
+        \vspace{5 pt}
+
+        \normalsize
+        
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{mailto:enrique.moralesv2@gmail.com}{enrique.moralesv2@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{tel:+51-955-76-4819}{+51 955-76-4819}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://enriquemoralesv.super.site/}{enriquemoralesv.super.site}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/enriquemoralesv/}{linkedin.com/in/enriquemoralesv}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://github.com/enriquemoralesvite}{github.com/enriquemoralesvite}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+
+    \section{Professional Summary}
+
+
+
+        
+    \begin{onecolentry}
+        \justify
+        Results-oriented Senior Business Analyst with over 5 years of experience in process improvement, Agile methodologies, and digital transformation across industries such as finance, technology, manufacturing, supply chain management, and healthcare. Skilled in driving efficiency, improving workflows and delivering business solutions through strong analytical and technical expertise. Proven ability to collaborate with cross-functional teams, align project goals with business objectives, and deliver high-quality results.
+    \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+   
+    \section{Core Competencies}
+    \begin{onecolentry}
+        \begin{multicols}{2}
+        \begin{highlightsforbulletentries}
+            \item Agile (Scrum, Kanban)
+            \item Business Analysis Artifacts (Process Flows, Data Diagrams, User Stories)
+            \item Stakeholder Communication \& Management
+            \item Test Strategies \& Quality Assurance
+            \item Process Automation \& Optimization
+            \item Data Analysis \& Reporting (Power BI, Tableau, SQL)
+            \item Tools: Jira, Azure DevOps, Draw.io, Miro, Lucidchart, Postman
+            \item Programming: Python, SQL, Selenium, JavaScript.
+        \end{highlightsforbulletentries}
+        \end{multicols}
+    \end{onecolentry}
+
+    \section{Languages}
+        
+      \begin{onecolentry}
+        \begin{multicols}{2}
+        \begin{highlightsforbulletentries}
+            \item Spanish (Native speaker)
+            \item English (C1)
+        \end{highlightsforbulletentries}
+        \end{multicols}
+    \end{onecolentry}
+
+    
+    \section{Experience}
+        
+        \begin{twocolentry}{
+            Apr. 2023 – Dec. 2024
+        }
+            \textbf{Business \& Quality Assurance Analyst}, LEAN SOLUTIONS GROUP -- Pompano Beach, Florida, USA\end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Led process improvement initiatives, increasing workflow efficiency by 30%.
+                \item Streamlined processes across multiple departments, reducing operational costs by 20%.
+                \item Improved functionality and user experience of management platforms, enhancing accessibility across six key departments.
+                \item Collaborated with cross-functional teams to ensure alignment with organizational goals.
+                \item Identified and documented software defects, improving resolution times by 40\% through the effective use of a bug tracking system. 
+                \item Designed and executed test cases, leading to a 35\% reduction in regression testing times.
+                \item Streamlined the ticket approval process, enhancing the overall quality assurance workflow.
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.5 cm}
+
+        \begin{twocolentry}{
+    Oct. 2021 -- Oct. 2023
+}
+    \textbf{Business Analyst}, GLOBANT
+\end{twocolentry}
+\vspace{0.10 cm}
+
+        \begin{onecolentry}
+            \textbf{Client: Walt Disney Company -- Orlando, Florida (USA)}
+            \begin{highlights}
+                \item Led the development and implementation of a Middleware platform, improving data flow and efficiency across Disney's supply chain by 40\%.
+                \item Collaborated with stakeholders to gather requirements, define user stories, and ensure on-time, within-budget project delivery.
+                \item Improved data accuracy by 37\% and processing speed by 74\%, enabling better decision-making and operational efficiency.
+            \end{highlights}
+        \end{onecolentry}
+    
+        \begin{onecolentry}
+            \textbf{Client: UPS Air, Project in partnership with Ernst Young (EY) -- Tennessee, Nashville (USA)}
+            \begin{highlights}
+                \item Developed a digital platform to automate the tax return process for 46 states, reducing processing time by 80\%.
+                \item Automated tax calculations, ensuring compliance and reducing workforce needs by 72\%.
+            \end{highlights}
+        \end{onecolentry}
+        \begin{onecolentry}
+            \textbf{Client: Niubiz, (Per\'u)}
+            \begin{highlights}
+                \item Developed a mobile and web platform supporting 400K+ monthly transactions.
+                \item Improved real-time sales tracking and KPI dashboard generation, enhancing customer satisfaction by 30\%.
+            \end{highlights}
+        \end{onecolentry}
+        
+        \begin{onecolentry}
+            \textbf{Key Responsibilities:}
+            \begin{highlights}
+                \item Documented requirements through user stories and acceptance criteria.
+                \item Managed project scopes, timelines, and deliverables.
+                \item Led Agile ceremonies and roadmap creation for project success.
+            \end{highlights}
+        \end{onecolentry}
+        \vspace{0.4 cm}
+        \begin{twocolentry}{
+        Jun. 2021 -- Nov. 2021
+    }
+        \textbf{Continues Improvement Senior}, AJE GROUP
+    \end{twocolentry}
+    \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Apr. 2018 -- May. 2021
+        }
+            \textbf{Project And Process Transformation}, INTERBANK
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        
+        \begin{twocolentry}{
+            Nov. 2017 -- Apr. 2018
+        }
+            \textbf{Management systems project assistant}, ACI PROYECTOS
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        
+        \begin{twocolentry}{
+            Apr. 2017 -- Oct. 2017
+        }
+            \textbf{Planning And Production Trainee}, Jimenez's Industrial Engineering
+        \end{twocolentry}
+        \vspace{0.2 cm}
+        
+    \section{Education}
+            
+            \begin{twocolentry}{
+                May. 2013 -- Dec. 2017
+            }
+                \textbf{Universidad Tecnol\'ogica del Per\'u}, Lima, Per\'u\\
+                Bachelor's degree in industrial engineering
+            \end{twocolentry}
+            \vspace{0.2 cm}
+            
+            \begin{twocolentry}{
+                Apr. 2020 -- Aug. 2020
+            }
+                \textbf{UC Berkeley Haas School of Business}, online\\
+                Digital Transformation
+            \end{twocolentry}
+            \vspace{0.2 cm}
+            
+            \begin{twocolentry}{
+                Aug. 2020 -- Oct. 2020
+            }
+                \textbf{MIT, Professional Education}, online\\
+                Cloud \& DevOps
+            \end{twocolentry}
+            \vspace{0.2 cm}
+            
+            \begin{twocolentry}{
+                Jul. 2020 -- Sep. 2020
+            }
+                \textbf{Scrum Alliance}, online\\
+                Product Owner
+    \end{twocolentry}
+
+    
+      
+    \section{Projects}
+                
+        \begin{twocolentry}{
+            
+        }
+            \textbf{Analyzing Global and Country-wise Trends of COVID-19 Cases}\\
+            \vspace{0.1 cm}
+        \end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a Python-based project to analyze and visualize COVID-19 data, utilizing powerful libraries like Pandas for data manipulation and NumPy for numerical operations. The project processes and aggregates data by country and date, allowing for comprehensive insights into the pandemic's progression.
+                \item Tools Used: Python, Pandas, Numpy, Matplotlib and Scikit-learn.
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+              \begin{twocolentry}{
+            
+        }
+            \textbf{Music App}\\
+            \vspace{0.1 cm}
+        \end{twocolentry}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item This is a music player web application, built using HTML, CSS, and JavaScript. It features a user-friendly interface with core functionalities like music playback, playlist creation and management, and a search bar for discovering new music.This project aims to demonstrate basic web development skills and explore fundamental music player concepts.
+                \item Tools Used: JavaScript, HTML and CSS.
+            \end{highlights}
+        \end{onecolentry}
+
+
+        
+
+
+    
+    \section{Technologies}
+
+
+
+        
+        \begin{onecolentry}
+            \textbf{Data Analysis:} SQL, Python (Pandas, Numpy, Matplotlib, Scikit-learn), Spyder 6
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{onecolentry}
+            \textbf{Data Visualization:} PowerBI, Tableau, Looker
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{onecolentry}
+            \textbf{Web Development:} JavaScript, TypeScript, HTML5, CSS
+        \end{onecolentry}
+
+
+    
+
+\end{document}
